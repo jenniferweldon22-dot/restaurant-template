@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>The Well | Menu</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+:root { --primary:#3e2c23; --bg:#fdfbf8; }
+
+body { font-family:Inter; background:var(--bg); }
+
+h1,h2,h3 { font-family:"Playfair Display",serif; }
+
+.menu-img-container{
+  border-radius:2rem;
+  overflow:hidden;
+  aspect-ratio:4/3;
+  background:#eee;
+}
+</style>
+</head>
+
+<body class="text-gray-800">
+
+<!-- HEADER -->
+<header class="flex justify-between items-center px-6 md:px-20 py-8">
+  <div class="flex items-center gap-3">
+    <div class="logo-container w-12 h-12 rounded-full bg-white shadow flex items-center justify-center">
+      <i class="fa-solid fa-utensils text-[#3e2c23]"></i>
+    </div>
+    <div class="restaurant-name font-bold tracking-widest uppercase"></div>
+  </div>
+
+  <nav class="hidden md:flex gap-8 text-sm uppercase">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#menu">Menu</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section id="home" class="text-center py-24">
+  <h1 class="hero-title text-5xl font-bold"></h1>
+  <p class="hero-tagline text-gray-500 mt-3"></p>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="text-center py-24 text-white" style="background:var(--primary)">
+  <h2 class="text-3xl mb-4">About</h2>
+  <p class="about-text max-w-xl mx-auto"></p>
+</section>
+
+<!-- MENU -->
+<section id="menu" class="px-6 md:px-20 py-24 max-w-7xl mx-auto">
+  <h2 class="text-4xl text-center mb-14 font-bold">Menu</h2>
+  <div id="menuContainer"></div>
+</section>
+
+<!-- CONTACT (SPLIT SCREEN FIXED) -->
+<section id="contact" class="px-6 md:px-20 py-24">
+  <h2 class="text-4xl text-center mb-16 font-bold">Contact</h2>
+
+  <!-- Changed max-w-6xl to max-w-4xl to bring the sides closer together -->
+  <div class="grid md:grid-cols-2 gap-16 max-w-4xl mx-auto items-center">
+
+    <!-- LEFT (Now pushed further right due to smaller container) -->
+    <div class="flex flex-col justify-center items-center md:items-end md:text-right gap-3">
+      <p class="text-2xl font-bold text-[#3e2c23] contact-phone"></p>
+      <p class="text-gray-500 text-lg contact-location"></p>
+
+      <!-- Social Icons -->
+      <div class="flex justify-center md:justify-end gap-6 text-2xl mt-4 text-[#3e2c23]">
+        <i class="fa-brands fa-instagram cursor-pointer hover:opacity-60 transition-all duration-300"></i>
+        <i class="fa-brands fa-facebook cursor-pointer hover:opacity-60 transition-all duration-300"></i>
+        <i class="fa-brands fa-snapchat cursor-pointer hover:opacity-60 transition-all duration-300"></i>
+        <i class="fa-brands fa-whatsapp cursor-pointer hover:opacity-60 transition-all duration-300"></i>
+        <i class="fa-solid fa-envelope cursor-pointer hover:opacity-60 transition-all duration-300"></i>
+      </div>
+    </div>
+
+    <!-- RIGHT MAP -->
+    <div class="rounded-2xl overflow-hidden shadow-lg border border-stone-100">
+      <iframe
+        class="w-full h-[350px]"
+        src="https://www.google.com/maps?q=Jeddah&output=embed"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy">
+      </iframe>
+    </div>
+
+  </div>
+</section>
+
+<!-- MODAL -->
+<div id="modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center">
+  <div class="bg-white p-6 rounded-xl w-80 text-center">
+    <h2 id="mName" class="font-bold text-xl"></h2>
+    <p id="mDesc" class="text-gray-600 mt-2"></p>
+    <p id="mCal" class="mt-3 font-semibold"></p>
+    <button onclick="closeModal()" class="mt-4 px-4 py-2 bg-black text-white rounded-full">Close</button>
+  </div>
+</div>
+
+<script>
+
+const config = {
+  branding:{name:"The Well"},
+  hero:{headline:"An Elevated Dining Experience",subheadline:"Crafted with intention"},
+  about:{text:"We are a modern restaurant focused on quality and flavor."},
+  contact:{phone:"+966 000 000",location:"Jeddah"},
+
+  menu:{
+    appetizers:[
+      {name:"Bruschetta",desc:"Tomatoes & garlic bread",price:"8",calories:"180 kcal",img:"https://www.allrecipes.com/thmb/9f5XG4Bf9mH9G1b1L1X6z1Y8Xf8=/1500x0/filters:no_upscale()/bruschetta.jpg"},
+      {name:"Soup",desc:"Fresh vegetable soup",price:"7",calories:"120 kcal",img:"images/soup.jpg"},
+      {name:"Fries",desc:"Crispy fries",price:"6",calories:"300 kcal",img:"images/fries.jpg"},
+      {name:"Salad",desc:"Fresh greens",price:"9",calories:"210 kcal",img:"images/salad.jpg"}
+    ],
+
+    drinks:[
+      {name:"Espresso",desc:"Strong coffee",price:"4",calories:"5 kcal",img:"images/espresso.jpg"},
+      {name:"Latte",desc:"Milk coffee",price:"5",calories:"150 kcal",img:"images/latte.jpg"},
+      {name:"Juice",desc:"Fresh juice",price:"6",calories:"140 kcal",img:"images/juice.jpg"},
+      {name:"Water",desc:"Still water",price:"3",calories:"0 kcal",img:"images/water.jpg"}
+    ]
+  }
+};
+
+function openInfo(item){
+  document.getElementById("modal").classList.remove("hidden");
+  document.getElementById("mName").textContent = item.name;
+  document.getElementById("mDesc").textContent = item.desc;
+  document.getElementById("mCal").textContent = item.calories;
+}
+
+function closeModal(){
+  document.getElementById("modal").classList.add("hidden");
+}
+function orderNow(){
+  window.location.href="https://selforder.ctit.com.sa/pos-self/start_ordering";
+}
+function render(){
+
+  document.querySelector(".restaurant-name").textContent = config.branding.name;
+  document.querySelector(".hero-title").textContent = config.hero.headline;
+  document.querySelector(".hero-tagline").textContent = config.hero.subheadline;
+  document.querySelector(".about-text").textContent = config.about.text;
+  document.querySelector(".contact-phone").textContent = config.contact.phone;
+  document.querySelector(".contact-location").textContent = config.contact.location;
+
+  const container = document.getElementById("menuContainer");
+  container.innerHTML = "";
+
+  Object.entries(config.menu).forEach(([cat, items])=>{
+
+    container.innerHTML += `<h3 class="text-2xl mt-10 mb-6 capitalize font-semibold">${cat}</h3>`;
+
+    const grid = document.createElement("div");
+    grid.className = "grid grid-cols-2 lg:grid-cols-4 gap-8 mb-12";
+
+    items.forEach(i=>{
+      grid.innerHTML += `
+        <div class="text-center">
+
+          <div class="menu-img-container relative">
+
+            <button onclick='openInfo(${JSON.stringify(i)})'
+              class="absolute top-3 right-3 bg-white/80 w-8 h-8 rounded-full shadow">
+              <i class="fa-solid fa-circle-info"></i>
+            </button>
+
+            <img src="${i.img}" class="w-full h-full object-cover"/>
+          </div>
+
+          <div class="mt-2 font-bold">
+            ${i.name} $${i.price}
+          </div>
+
+        </div>
+      `;
+    });
+
+    container.appendChild(grid);
+  });
+}
+
+render();
+
+
+</script>
+<!-- FLOATING ORDER NOW BUTTON-->
+ <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999]">
+<button onclick="orderNow()"
+class="px-8 py-3 rounded-full bg-white border shadow-xl hover:bg-gray-50 transition">
+Order Now
+</button>
+ </div>
+
+</body>
+</html>
